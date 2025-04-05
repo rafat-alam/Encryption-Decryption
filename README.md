@@ -14,7 +14,7 @@ This API provides simple endpoints to **encrypt** and **decrypt** text data usin
 ```json
 {
   "msg": "Message you want to encrypt",
-  "code": "123456789012345678901234567890123456789012345678"
+  "code": "123456789012345678901234567890123456789012345678"  // 48-digit code
 } 
 ```
 
@@ -27,7 +27,7 @@ This API provides simple endpoints to **encrypt** and **decrypt** text data usin
 
 ```json
 {
-  "emsg": "Message you want to decrypt",
-  "code": "123456789012345678901234567890123456789012345678"
+  "emsg": "MessageYouWantToDecrypt",
+  "code": "123456789012345678901234567890123456789012345678"  // 48-digit code
 }
 ```
