@@ -18,7 +18,7 @@ This API provides simple endpoints to **encrypt** and **decrypt** text data usin
 } 
 ```
 
-## 🔒 Request Format for Decryption
+## 🔓 Request Format for Decryption
 
 - **Method:** `POST`  
 - **Endpoint:** `/decrypt`
