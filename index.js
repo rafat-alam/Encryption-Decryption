@@ -1,30 +1,24 @@
-const originalList = ['C', '?', 'T', 'f', 'o', 'V', '4', 'W', 'S', 'n', 'w', '>', 'Y', '9', 'X', 'z', '&', '.', 'd', ')', 'x', '2', '$', 'L', '[', 'Z', '`', '<', 'E', 'e', '~', 'i', 'I', 'k', 'j', '=', ':', 'A', 'b', '_', 'z#x#x', 'Q', '5', 'g', '7', '1', 'l', '+', ']', '{', 'c', '(', 'D', 'r', 'N', '|', ';', '8', '@', 'v', '\\', 'G', '-', '"', 'H', 'O', '}', 'p', ',', 'y', "'", '6', '^', '*', 'B', 'K', 'P', 'R', 'M', 's', 'a', '%', '3', 'u', 'U', 't', 'q', '/', 'J', '!', 'h', 'F', 'm', '0', '#', 'z#y#y'];
-
-// Documentation Section
-// 1. We are going to call start.
-// 2. Then are going to distribute aur original list into Groups [12 - Groups].
-// 3. The work done in step 2 is done by distributeListContiniously.
-// 4. Then we call generate dearrangements for each group.
-
-
 function distributeListContinuously(lst, numGroups) {
-  if (numGroups <= 0) throw new Error("Number of groups must be positive.");
+  if (numGroups <= 0) {
+    throw new Error("Number of groups must be positive.");
+  }
 
   const groupSize = Math.floor(lst.length / numGroups);
   const remainder = lst.length % numGroups;
   const groups = [];
-
   let startIndex = 0;
+
   for (let i = 0; i < numGroups; i++) {
     const currentGroupSize = groupSize + (i < remainder ? 1 : 0);
-    groups.push(lst.slice(startIndex, startIndex + currentGroupSize));
+    const group = lst.slice(startIndex, startIndex + currentGroupSize);
+    groups.push(group);
     startIndex += currentGroupSize;
   }
 
   return groups;
 }
 
-function generateDerangements(lst) {
+function derangements(lst) {
   if (lst.length <= 1) return [];
 
   const results = [];
@@ -38,7 +32,9 @@ function generateDerangements(lst) {
     for (let i = 0; i < remaining.length; i++) {
       const nextElem = remaining[i];
       if (nextElem !== lst[current.length]) {
-        generate([...current, nextElem], [...remaining.slice(0, i), ...remaining.slice(i + 1)]);
+        const newCurrent = current.concat([nextElem]);
+        const newRemaining = remaining.slice(0, i).concat(remaining.slice(i + 1));
+        generate(newCurrent, newRemaining);
       }
     }
   }
@@ -47,72 +43,43 @@ function generateDerangements(lst) {
   return results;
 }
 
-function searchR(matrix, target) {
-  for (let row = 0; row < matrix.length; row++) {
-    if (matrix[row].includes(target)) return row;
-  }
-  return null;
-}
+const originalList = ['C', '?', 'T', 'f', 'o', 'V', '4', 'W', 'S', 'n', 'w', '>', 'Y', '9', 'X', 'z', '&', '.', 'd', ')', 'x', '2', '$', 'L', '[', 'Z', '`', '<', 'E', 'e', '~', 'i', 'I', 'k', 'j', '=', ':', 'A', 'b', '_', 'z#x#x', 'Q', '5', 'g', '7', '1', 'l', '+', ']', '{', 'c', '(', 'D', 'r', 'N', '|', ';', '8', '@', 'v', '\\', 'G', '-', '"', 'H', 'O', '}', 'p', ',', 'y', "'", '6', '^', '*', 'B', 'K', 'P', 'R', 'M', 's', 'a', '%', '3', 'u', 'U', 't', 'q', '/', 'J', '!', 'h', 'F', 'm', '0', '#', 'z#y#y'];
+const numGroups = 12;
+const distributedGroups = distributeListContinuously(originalList, numGroups);
 
-function searchC(matrix, target) {
-  for (let row = 0; row < matrix.length; row++) {
-    for (let col = 0; col < matrix[row].length; col++) {
-      if (matrix[row][col] === target) return col;
-    }
-  }
-  return null;
-}
+const allDerangements = Array(16).fill().map((_, i) => derangements(distributedGroups[i] || []));
 
-function searchFlat(arr, target) {
-  return arr.indexOf(target);
-}
+const b = Array(16).fill(0);
 
-function split48DigitInteger(input) {
-  if (input.length !== 48) throw new Error("Input must be exactly 48 digits long.");
-  const b = [];
+function split48DigitInteger(input_integer) {
+  const segments = [];
   for (let i = 0; i < 48; i += 4) {
-    b.push(parseInt(input.slice(i, i + 4)));
+    segments.push(parseInt(input_integer.slice(i, i + 4)));
   }
-  return b;
+
+  for (let i = 0; i < 12; i++) {
+    b[i] = segments[i];
+  }
 }
 
-function encrypt(msg, secretCode, groups, derangements) {
-  const b = split48DigitInteger(secretCode);
-  let encoded = "";
-  for (let char of msg) {
-    let ch = (char === " ") ? "z#y#y" : char;
-    const r = searchR(groups, ch);
-    const c = searchC(groups, ch);
-    if (r === null || c === null || !derangements[r][b[r]]) return "Invalid input";
-    encoded += derangements[r][b[r]][c];
-  }
-  return encoded;
-}
-
-function decrypt(msg, secretCode, groups, derangements) {
-  const b = split48DigitInteger(secretCode);
-  let decoded = "";
-  let i = 0;
-  while (i < msg.length) {
-    let ch = msg[i];
-    let index = originalList.indexOf(ch);
-    if (index === -1) return "Invalid character in encoded message";
-    for (let r = 0; r < groups.length; r++) {
-      const der = derangements[r][b[r]];
-      const pos = searchFlat(der, ch);
-      if (pos !== -1) {
-        let originalChar = groups[r][pos];
-        decoded += (originalChar === "z#y#y") ? " " : originalChar;
-        break;
-      }
+function searchr(matrix, target) {
+  for (let rowIndex = 0; rowIndex < matrix.length; rowIndex++) {
+    if (matrix[rowIndex].includes(target)) {
+      return rowIndex;
     }
-    i++;
   }
-  return decoded;
+  return null;
 }
 
-const groups = distributeListContinuously(originalList, 12);
-const allDerangements = groups.map(group => generateDerangements(group));
+function searchc(matrix, target) {
+  for (let rowIndex = 0; rowIndex < matrix.length; rowIndex++) {
+    const colIndex = matrix[rowIndex].indexOf(target);
+    if (colIndex !== -1) {
+      return colIndex;
+    }
+  }
+  return null;
+}
 
 // Server side programming....
 // From HERE -----------------
@@ -142,15 +109,79 @@ app.use(express.urlencoded({extended : true}));
 // Encryption
 app.post("/encrypt", (req, res) => {
   let {msg, code} = req.body;
-  const encryptedMessage = encrypt(msg, code, groups, allDerangements);
-  res.send(encryptedMessage);
+  split48DigitInteger(code);
+  let output = "";
+  for (let i = 0; i < msg.length; i++) {
+    const char = msg[i];
+    if (char === " ") {
+      const k = "z#y#y";
+      const row = searchr(distributedGroups, k);
+      const col = searchc(distributedGroups, k);
+      output += allDerangements[row][b[row]][col];
+    } else {
+      const row = searchr(distributedGroups, char);
+      const col = searchc(distributedGroups, char);
+      output += allDerangements[row][b[row]][col];
+    }
+  }
+  res.send(output);
 });
 
 // Decryption
 app.post("/decrypt", (req, res) => {
   let {emsg, code} = req.body;
-  const msg = decrypt(emsg, code, groups, allDerangements);
-  res.send(msg);
+  split48DigitInteger(code);
+
+  let i = 0;
+  const j = emsg.length - 1;
+  let output = "";
+
+  function search(arr, val) {
+    return arr.indexOf(val);
+  }
+
+  function printf(txt) {
+    output += (txt === "z#y#y" ? " " : txt);
+  }
+
+  function error() {
+    console.log("You wrote the wrong code or message...");
+  }
+
+  while (i <= j) {
+    if ((emsg[i] === "z" && emsg[i + 1] === "#" && emsg[i + 3] === "#") &&
+      ((emsg[i + 2] === "y" || emsg[i + 2] === "x") && (emsg[i + 4] === "y" || emsg[i + 4] === "x"))) {
+      if (emsg[i + 2] === "y") {
+        try {
+          printf(distributedGroups[searchr(distributedGroups, "z#y#y")][
+            search(allDerangements[searchr(distributedGroups, "z#y#y")][b[searchr(distributedGroups, emsg[i])]], "z#y#y")
+          ]);
+        } catch (e) {
+          error(); break;
+        }
+        i += 4;
+      } else {
+        try {
+          printf(distributedGroups[searchr(distributedGroups, "z#x#x")][
+            search(allDerangements[searchr(distributedGroups, "z#x#x")][b[searchr(distributedGroups, emsg[i])]], "z#x#x")
+          ]);
+        } catch (e) {
+          error(); break;
+        }
+        i += 4;
+      }
+    } else {
+      try {
+        printf(distributedGroups[searchr(distributedGroups, emsg[i])][
+          search(allDerangements[searchr(distributedGroups, emsg[i])][b[searchr(distributedGroups, emsg[i])]], emsg[i])
+        ]);
+      } catch (e) {
+        error(); break;
+      }
+    }
+    i++;
+  }
+  res.send(output);
 });
 
 // Random Traffic
