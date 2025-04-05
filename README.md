@@ -13,6 +13,21 @@ This API provides simple endpoints to **encrypt** and **decrypt** text data usin
 
 ```json
 {
-  "msg": "Message you want to encryt",
+  "msg": "Message you want to encrypt",
+  "code": "123456789012345678901234567890123456789012345678"
+} 
+```
+
+## 🔒 Request Format for Decryption
+
+- **Method:** `POST`  
+- **Endpoint:** `/decrypt`
+
+### 📤 JSON Body Format
+
+```json
+{
+  "emsg": "Message you want to decrypt",
   "code": "123456789012345678901234567890123456789012345678"
 }
+```
