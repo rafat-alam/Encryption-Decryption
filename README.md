@@ -1,6 +1,6 @@
 # 🔐 API for Encryption and Decryption of Text Data
 
-This API provides simple endpoints to **encrypt** and **decrypt** text data using a secure 48-digit code.
+This API provides simple endpoints to **encrypt** and **decrypt** text data using a secure 64-digit code.
 
 ---
 
@@ -14,7 +14,7 @@ This API provides simple endpoints to **encrypt** and **decrypt** text data usin
 ```json
 {
   "msg": "Message you want to encrypt",
-  "code": "123456789012345678901234567890123456789012345678"
+  "code": "7439152083647195820364719582036471958203647195820364719582036471958"
 } 
 ```
 
@@ -28,6 +28,6 @@ This API provides simple endpoints to **encrypt** and **decrypt** text data usin
 ```json
 {
   "emsg": "MessageYouWantToDecrypt",
-  "code": "123456789012345678901234567890123456789012345678"
+  "code": "7439152083647195820364719582036471958203647195820364719582036471958"
 }
 ```
