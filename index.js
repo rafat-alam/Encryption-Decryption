@@ -1,3 +1,5 @@
+// Main Encryption and Decryption Program
+
 let b = [
   ['j', 's', 'B', 'K', 'T', 'ú', '&', '[', '>'],
   ['6', 'a', 'b', 't', 'C', 'L', 'U', '~', '*'],
@@ -71,6 +73,9 @@ function get55DigitNumber(input64Digit) {
 // Server side programming....
 // From HERE -----------------
 
+// -------------------------------------------------------------------------------------------------
+// Setting up Server
+
 let baseUrl = "http://localhost:6777";
 let axios = require('axios');
 
@@ -93,6 +98,9 @@ async function fetch_get(url) {
 // Setting other types of Requests
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
+
+// -------------------------------------------------------------------------------------------------
+// Request Handling Section
 
 // Encryption
 app.post("/encrypt", (req, res) => {
@@ -153,6 +161,9 @@ app.get("/update", (req, res) => {
   res.send("Server running check every second.");
 });
 
+// -------------------------------------------------------------------------------------------------
+// Starting the SERVER
+
 // Listening on Port for Request
 app.listen(port, () => {
   console.log(`Server is running on ${baseUrl}`);
@@ -164,3 +175,5 @@ async function repeatFunction() {
   console.log(res.data);
 }
 // setInterval(repeatFunction, 1000);
+
+// -------------------------------------------------------------------------------------------------
