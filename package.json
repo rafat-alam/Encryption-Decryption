@@ -16,7 +16,6 @@
     "axios": "^1.8.4",
     "express": "^5.1.0",
     "method-override": "^3.0.0",
-    "nodemon": "^3.1.9",
-    "prompt-sync": "^4.2.0"
+    "nodemon": "^3.1.9"
   }
 }
