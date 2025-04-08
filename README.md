@@ -20,8 +20,6 @@ npm install
 npm run test
 ```
 
----
-
 ## 🔒 Request Format for Encryption
 
 - **Method:** `POST`  
