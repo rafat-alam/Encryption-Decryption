@@ -4,6 +4,24 @@ This API provides simple endpoints to **encrypt** and **decrypt** text data usin
 
 ---
 
+## 🚀 Server Setup
+
+Follow these steps to set up and test the server:
+
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Running Server
+
+```bash
+npm run test
+```
+
+---
+
 ## 🔒 Request Format for Encryption
 
 - **Method:** `POST`  
