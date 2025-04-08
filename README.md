@@ -11,13 +11,15 @@ Follow these steps to set up and test the server:
 ### 1. Install Dependencies
 
 ```bash
-npm install
+/GitHub/Encryption-Decryption (main)
+$ npm install
 ```
 
 ### 2. Running Server
 
 ```bash
-npm run test
+/GitHub/Encryption-Decryption (main)
+$ npm run test
 ```
 
 ## 🔒 Request Format for Encryption
