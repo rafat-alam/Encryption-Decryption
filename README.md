@@ -27,6 +27,8 @@ $ npm run test
 - **Method:** `POST`  
 - **Endpoint:** `/encrypt`
 
+You may also use the URL-encoded form of this request.
+
 ### 📤 JSON Body Format
 
 ```json
@@ -40,6 +42,8 @@ $ npm run test
 
 - **Method:** `POST`  
 - **Endpoint:** `/decrypt`
+
+You may also use the URL-encoded form of this request.
 
 ### 📤 JSON Body Format
 
